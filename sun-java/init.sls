@@ -6,6 +6,9 @@
 
   {%- set tarball_file = java.prefix + '/' + java.source_url.split('/') | last %}
 
+curl:
+    pkg.installed
+
 java-install-dir:
   file.directory:
     - name: {{ java.prefix }}
@@ -20,6 +23,7 @@ download-jdk-tarball:
     - unless: test -d {{ java.java_real_home }} || test -f {{ tarball_file }}
     - require:
       - file: java-install-dir
+      - pkg: curl
 
 unpack-jdk-tarball:
   archive.extracted:
